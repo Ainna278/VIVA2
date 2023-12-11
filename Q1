@@ -1,0 +1,220 @@
+import java.util.Scanner;
+
+public class MatrixOperations {
+
+    // Method for matrix addition
+    public static int[][] addition(int[][] matrix_addition1, int[][] matrix_addition2) {
+        int[][] result = new int[3][3];
+
+        // Iterate through each element of the matrices and calculate the sum
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                result[i][j] = matrix_addition1[i][j] + matrix_addition2[i][j];
+            }
+        }
+
+        return result;
+    }
+
+    // Method for matrix subtraction
+    public static int[][] subtraction(int[][] matrix_subtraction1, int[][] matrix_subtraction2) {
+        int[][] result = new int[3][3];
+
+        // Iterate through each element of the matrices and calculate the difference
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                result[i][j] = matrix_subtraction1[i][j] - matrix_subtraction2[i][j];
+            }
+        }
+
+        return result;
+    }
+
+    // Method for matrix multiplication
+    public static int[][] multiplication(int[][] matrix_multiplication1, int[][] matrix_multiplication2) {
+        int[][] result = new int[3][3];
+
+        // Iterate through each element of the result matrix and calculate the product
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                for (int k = 0; k < 3; k++) {
+                    result[i][j] += matrix_multiplication1[i][k] * matrix_multiplication2[k][j];
+                }
+            }
+        }
+
+        return result;
+    }
+
+    // Method for finding determinant of a 3x3 matrix
+    private static double determinant(double[][] matrix) {
+        double det = 0;
+
+        // Use the formula to calculate the determinant of a 3x3 matrix
+        det += matrix[0][0] * (matrix[1][1] * matrix[2][2] - matrix[2][1] * matrix[1][2]);
+        det -= matrix[0][1] * (matrix[1][0] * matrix[2][2] - matrix[2][0] * matrix[1][2]);
+        det += matrix[0][2] * (matrix[1][0] * matrix[2][1] - matrix[2][0] * matrix[1][1]);
+
+        return det;
+    }
+
+    // Method for finding inverse of a 3x3 matrix
+    public static double[][] inverse(double[][] matrix) {
+        double det = determinant(matrix);
+        double[][] inverseMatrix = new double[3][3];
+        
+        // Check if the matrix is singular before attempting inversion
+        if (det == 0) {
+            return null; // Special value indicating that the matrix is singular
+        }
+
+        // Use the formula to calculate each element of the inverse matrix
+        inverseMatrix[0][0] = (matrix[1][1] * matrix[2][2] - matrix[2][1] * matrix[1][2]) / det;
+        inverseMatrix[0][1] = (matrix[0][2] * matrix[2][1] - matrix[0][1] * matrix[2][2]) / det;
+        inverseMatrix[0][2] = (matrix[0][1] * matrix[1][2] - matrix[0][2] * matrix[1][1]) / det;
+
+        inverseMatrix[1][0] = (matrix[1][2] * matrix[2][0] - matrix[1][0] * matrix[2][2]) / det;
+        inverseMatrix[1][1] = (matrix[0][0] * matrix[2][2] - matrix[0][2] * matrix[2][0]) / det;
+        inverseMatrix[1][2] = (matrix[1][0] * matrix[0][2] - matrix[0][0] * matrix[1][2]) / det;
+
+        inverseMatrix[2][0] = (matrix[1][0] * matrix[2][1] - matrix[2][0] * matrix[1][1]) / det;
+        inverseMatrix[2][1] = (matrix[2][0] * matrix[0][1] - matrix[0][0] * matrix[2][1]) / det;
+        inverseMatrix[2][2] = (matrix[0][0] * matrix[1][1] - matrix[1][0] * matrix[0][1]) / det;
+
+        return inverseMatrix;
+    }
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // Input for the first matrix addition
+        System.out.println("Enter elements for the first matrix addition (3x3):");
+        int[][] matrix_addition1 = new int[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print("Enter element at position (" + (i + 1) + "," + (j + 1) + "): ");
+                matrix_addition1[i][j] = input.nextInt();
+            }
+        }
+
+        // Input for the second matrix addition
+        System.out.println("\nEnter elements for the second matrix addition (3x3):");
+        int[][] matrix_addition2 = new int[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print("Enter element at position (" + (i + 1) + "," + (j + 1) + "): ");
+                matrix_addition2[i][j] = input.nextInt();
+            }
+        }
+        
+        // Perform operations and display results for addition
+        int[][] resultAddition = addition(matrix_addition1, matrix_addition2);
+        System.out.println("\nResult of Addition:");
+        printMatrix(resultAddition);
+        
+        // Input for the first matrix subtraction
+        System.out.println("Enter elements for the first matrix subtraction (3x3):");
+        int[][] matrix_subtraction1 = new int[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print("Enter element at position (" + (i + 1) + "," + (j + 1) + "): ");
+                matrix_subtraction1[i][j] = input.nextInt();
+            }
+        }
+
+        // Input for the second matrix subtraction
+        System.out.println("\nEnter elements for the second matrix subtraction (3x3):");
+        int[][] matrix_subtraction2 = new int[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print("Enter element at position (" + (i + 1) + "," + (j + 1) + "): ");
+                matrix_subtraction2[i][j] = input.nextInt();
+            }
+        }
+        
+        // Perform operations and display results for subtraction
+        int[][] resultSubtraction = subtraction(matrix_subtraction1, matrix_subtraction2);
+        
+        System.out.println("\nResult of Subtraction:");
+        printMatrix(resultSubtraction);
+        
+        // Input for the first matrix multiplication
+        System.out.println("Enter elements for the first matrix multiplication (3x3):");
+        int[][] matrix_multiplication1 = new int[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print("Enter element at position (" + (i + 1) + "," + (j + 1) + "): ");
+                matrix_multiplication1[i][j] = input.nextInt();
+            }
+        }
+
+        // Input for the second matrix multiplication
+        System.out.println("\nEnter elements for the second matrix multiplication (3x3):");
+        int[][] matrix_multiplication2 = new int[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print("Enter element at position (" + (i + 1) + "," + (j + 1) + "): ");
+                matrix_multiplication2[i][j] = input.nextInt();
+            }
+        }
+        
+        // Perform operations and display results for multiplication
+        int[][] resultMultiplication = multiplication(matrix_multiplication1, matrix_multiplication2);
+        
+        System.out.println("\nResult of Multiplication:");
+        printMatrix(resultMultiplication);
+
+        // Input for the matrix to find determinant
+        System.out.println("Enter elements for a matrix to find determinant (3x3):");
+        double[][] matrixForDeterminant = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print("Enter element at position (" + (i + 1) + "," + (j + 1) + "): ");
+                matrixForDeterminant[i][j] = input.nextInt();
+            }
+        }
+
+        // Display determinant
+        System.out.println("Determinant of the matrix: " + determinant(matrixForDeterminant));
+
+        // Input for the matrix to find inverse
+        System.out.println("\nEnter elements for a matrix to find inverse (3x3):");
+        double[][] matrixForInverse = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print("Enter element at position (" + (i + 1) + "," + (j + 1) + "): ");
+                matrixForInverse[i][j] = input.nextDouble();
+            }
+        }
+
+        // Calculate and display inverse
+        double[][] resultInverse = inverse(matrixForInverse);
+
+        if (resultInverse != null) {
+            System.out.println("\nInverse of the matrix:");
+            // Print the matrix directly in the main method
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    System.out.print(resultInverse[i][j] + " ");
+                }
+                System.out.println();
+            }
+        } else {
+            System.out.println("Error: The matrix is singular, and its inverse does not exist.");
+        }
+
+        // Close the Scanner to prevent resource leak
+        input.close();
+    }
+
+    // Helper method to print a matrix
+    private static void printMatrix(int[][] matrix) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+}
